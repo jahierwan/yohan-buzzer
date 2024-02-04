@@ -7,3 +7,5 @@ Quelques liens utiles
 - https://appinventor.mit.edu/
 - https://www.circuitstate.com/tutorials/getting-started-with-arduino-nano-esp32-wifi-and-iot-development-board/#Bluetooth_LE
 - https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
+
+file:montage.jpg
