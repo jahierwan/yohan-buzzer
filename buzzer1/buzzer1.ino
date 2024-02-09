@@ -22,8 +22,9 @@ bool actif = true;
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
-      pCharacteristic->setValue(transfer.c_str()); //
-
+      pCharacteristic->setValue(transfer.c_str());
+      transfer = "";
+      
       if (value.length() > 0) {
         from_tel = "";
         for (int i = 0; i < value.length(); i++){
@@ -34,8 +35,6 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           actif = true;
         }
       }
-      
-      
     }
 };
 
@@ -45,7 +44,7 @@ int PIN = A0;
 void setup() {
   // bt
   Serial.begin(115200);
-  BLEDevice::init("MyESP32");
+  BLEDevice::init("buzzer");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
   BLECharacteristic *pCharacteristic = pService->createCharacteristic(
@@ -62,31 +61,29 @@ void setup() {
 
   // boutons
   pinMode(PIN, INPUT);
-
 }
 
 void loop() {
   int value;
+
   value = analogRead(PIN);
+  //Serial.print("intensité sur le pin = ");
+  //Serial.println(value);
 
   if (value < 3000 & actif == true) {
-    Serial.print("intensité sur le pin = ");
-    Serial.println(value);
     if ( value < 100 ) {
       transfer = "1";
     } else if ( value < 600 ) {
       transfer = "2";
     } else if ( value < 1500 ) {
       transfer = "3";
-    } else {
+    } else if (value < 3000) {
       transfer = "4";
     };
     Serial.print("Numero du bouton appuyé : ");
     Serial.println(transfer);
     actif = false;
   }
-
-  
-  
+  //delay(40);  
 
 }
