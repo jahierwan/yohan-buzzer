@@ -83,7 +83,7 @@ void setup() {
                                          BLECharacteristic::PROPERTY_WRITE
                                        );
   pCharacteristic->setCallbacks(new MyCallbacks());
-  pCharacteristic->setValue("7");
+  pCharacteristic->setValue("");
   pService->start();
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
