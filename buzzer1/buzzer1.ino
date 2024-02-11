@@ -13,7 +13,7 @@ https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Test
 #include <stdio.h>
 
 String qu_suivante;
-String transfer = "";
+String zone_partagee = "";
 bool attente_buzz = true;
 bool debug = true;
 
@@ -34,7 +34,7 @@ void recupere_valeur (BLECharacteristic *pCharacteristic) {
 	  Serial.print("recupere_valeur : qu_suivante = ");
 	  Serial.println(qu_suivante);
 	  Serial.print("tranfer = ");
-	  Serial.println(transfer);
+	  Serial.println(zone_partagee);
 	  Serial.println("Fin recupere_valeur");
 	};
       }
@@ -42,9 +42,9 @@ void recupere_valeur (BLECharacteristic *pCharacteristic) {
 
 void transferer (BLECharacteristic *pCharacteristic) {
   Serial.print("J'envoie la valeur du bouton appuyé  : ");
-  Serial.println(transfer);
-  pCharacteristic->setValue(transfer.c_str());
-  transfer = "";
+  Serial.println(zone_partagee);
+  pCharacteristic->setValue(zone_partagee.c_str());
+  zone_partagee = "";
 
 }
 
@@ -54,9 +54,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 
       Serial.print("MyCallbacks: ");
 
-      if (transfer == "1" || transfer == "2" || transfer == "3" || transfer == "4" ) {
+      if (zone_partagee == "1" || zone_partagee == "2" || zone_partagee == "3" || zone_partagee == "4" ) {
 	transferer(pCharacteristic);
-	delay(1000); //????
+	//delay(1000); //????
       };
       recupere_valeur(pCharacteristic);
       if (qu_suivante == "t") {
@@ -113,16 +113,16 @@ void loop() {
   if (value < 3000 & attente_buzz == true) {
 
     if ( value < 100 ) {
-      transfer = "1";
+      zone_partagee = "1";
     } else if ( value < 600 ) {
-      transfer = "2";
+      zone_partagee = "2";
     } else if ( value < 1500 ) {
-      transfer = "3";
+      zone_partagee = "3";
     } else if (value < 3000) {
-      transfer = "4";
+      zone_partagee = "4";
     };
     Serial.print("Numero du bouton appuyé : ");
-    Serial.println(transfer);
+    Serial.println(zone_partagee);
     attente_buzz = false;
     off=true;
   }
