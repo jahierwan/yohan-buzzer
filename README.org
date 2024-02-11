@@ -9,5 +9,3 @@ Quelques liens utiles
 - https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
 
 [[./montage.jpg]]
-
-test git
