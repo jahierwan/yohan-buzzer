@@ -21,7 +21,7 @@ bool debug = true;
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 
-// effet de bord : maj de valeur
+// effet de bord : recupere la valuer de qu_suivante via le BT
 void recupere_valeur (BLECharacteristic *pCharacteristic) {
       std::string value = pCharacteristic->getValue();
       if (value.length() > 0) {
@@ -32,10 +32,10 @@ void recupere_valeur (BLECharacteristic *pCharacteristic) {
         };
 	if (debug) {
 	  Serial.print("recupere_valeur : qu_suivante = ");
-	  Serial.println(qu_suivante);
-	  Serial.print("tranfer = ");
-	  Serial.println(zone_partagee);
-	  Serial.println("Fin recupere_valeur");
+	  Serial.print(qu_suivante);
+	  Serial.print("  zone_partagee = ");
+	  Serial.print(zone_partagee);
+	  Serial.println(" Fin recupere_valeur");
 	};
       }
 }
@@ -45,13 +45,11 @@ void transferer (BLECharacteristic *pCharacteristic) {
   Serial.println(zone_partagee);
   pCharacteristic->setValue(zone_partagee.c_str());
   zone_partagee = "";
-
 }
 
-// appellé quand "question suivante" est pressé + toutes les secondes (via timer2)
+// appellé quand le bouton "question suivante" est pressé + toutes les secondes (via timer2 dans MIT)
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
-
       Serial.print("MyCallbacks: ");
 
       if (zone_partagee == "1" || zone_partagee == "2" || zone_partagee == "3" || zone_partagee == "4" ) {
@@ -60,13 +58,12 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       };
       recupere_valeur(pCharacteristic);
       if (qu_suivante == "t") {
-	  Serial.println("qu_suivante = true -> je met le mode 'attente du buzz' a true  ");
+	  Serial.println("qu_suivante = t => je met le mode 'attente du buzz' a true");
 	  attente_buzz = true;
       } else {
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
       };
       Serial.println("Fin de MyCallbacks ");
-
     }
 };
 
@@ -103,15 +100,7 @@ void loop() {
   //Serial.print("intensité sur le pin = ");
   //Serial.println(value);
 
-  // debug
-  if (attente_buzz == false && off) {
-    Serial.print("loop : qu_suivante = ");
-    Serial.println(qu_suivante);
-    off = false;
-  };
-
   if (value < 3000 & attente_buzz == true) {
-
     if ( value < 100 ) {
       zone_partagee = "1";
     } else if ( value < 600 ) {
@@ -125,5 +114,11 @@ void loop() {
     Serial.println(zone_partagee);
     attente_buzz = false;
     off=true;
-  }
+  };
+  // pour le debug
+  if (attente_buzz == false && off) {
+    Serial.print("loop : qu_suivante = ");
+    Serial.println(qu_suivante);
+    off = false;
+  };
 }
