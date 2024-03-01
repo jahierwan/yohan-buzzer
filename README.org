@@ -5,18 +5,10 @@ Le fichier .ino est à ouvrir avec arduino-ide assez recent (2.2.1)
 
 Sur le téléphone, il faut installer MIT ai2 companion (Android play store)
 
-Quelques liens utiles
-- https://ai2.appinventor.mit.edu/
-- https://www.circuitstate.com/tutorials/getting-started-with-arduino-nano-esp32-wifi-and-iot-development-board/#Bluetooth_LE
-- https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
-
-[[./montage.jpg]]
-
-
 * Limitation
 
 Attention, si un joueur éliminé maintient sa pression sur son buzzer,
-il empêche les joueurs de grand rang de jouer
+il empêche les joueurs de  rang supérieur de jouer
 
 * Problème
 
@@ -28,3 +20,10 @@ Mais cela semble provenir de faux contacts sur la planche de dev (?).
 
 Dans tous  les cas, demander  aux gens de  pas appuyer sur  le buzzer
 quand ils n'ont pas besoin de le faire résout tous les problèmes.
+
+* Quelques liens utiles
+- https://ai2.appinventor.mit.edu/
+- https://www.circuitstate.com/tutorials/getting-started-with-arduino-nano-esp32-wifi-and-iot-development-board/#Bluetooth_LE
+- https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
+
+[[./montage.jpg]]
