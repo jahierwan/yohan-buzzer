@@ -5,11 +5,11 @@ Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][
 
 * Développement
 
-Le fichier .aia est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
+Le fichier file:buzzer/buzzer.ino est à ouvrir avec arduino-ide assez recent (2.2.1)
 
-Le fichier .ino est à ouvrir avec arduino-ide assez recent (2.2.1)
+Le fichier =buzzer/buzzer.aia= est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
 
-Sur le téléphone, il faut installer MIT ai2 companion (Android play store)
+Sur le téléphone, il faut installer =MIT ai2 companion= (Android play store)
 
 * Limitation
 
