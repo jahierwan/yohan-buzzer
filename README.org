@@ -1,7 +1,7 @@
 
 * Utilisation
 
-Installer le file:buzzer.apk et se laisser guider.
+Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][buzzer.apk]] et se laisser guider.
 
 * Développement
 
