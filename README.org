@@ -1,4 +1,10 @@
 
+* Utilisation
+
+Installer le file:buzzer.apk et se laisser guider.
+
+* Développement
+
 Le fichier .aia est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
 
 Le fichier .ino est à ouvrir avec arduino-ide assez recent (2.2.1)
@@ -21,9 +27,9 @@ Mais cela semble provenir de faux contacts sur la planche de dev (?).
 Dans tous  les cas, demander  aux gens de  pas appuyer sur  le buzzer
 quand ils n'ont pas besoin de le faire résout tous les problèmes.
 
+[[./montage.jpg]]
+
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
 - https://www.circuitstate.com/tutorials/getting-started-with-arduino-nano-esp32-wifi-and-iot-development-board/#Bluetooth_LE
 - https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
-
-[[./montage.jpg]]
