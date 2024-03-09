@@ -5,29 +5,13 @@ Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][
 
 * Développement
 
-Le fichier file:buzzer/buzzer.ino est à ouvrir avec arduino-ide assez recent (2.2.1)
+Le fichier file:buzzer_paralelle/buzzer_paralelle.ino est à ouvrir avec arduino-ide assez recent (2.2.1)
 
-Le fichier =buzzer/buzzer.aia= est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
+Le fichier =buzzer_paralelle/buzzer.aia= est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
 
 Sur le téléphone, il faut installer =MIT ai2 companion= (Android play store)
 
-* Limitation
-
-Attention, si un joueur éliminé maintient sa pression sur son buzzer,
-il empêche les joueurs de  rang supérieur de jouer
-
-* Problème
-
-Quand les gens éliminés restent  appuyés, ils génèrent parfois (assez
-rarement,  mais quand  même) de  fausses  tensions (et  donc de  faux
-appuis de la part d'autres joueurs).
-
-Mais cela semble provenir de faux contacts sur la planche de dev (?).
-
-Dans tous  les cas, demander  aux gens de  pas appuyer sur  le buzzer
-quand ils n'ont pas besoin de le faire résout tous les problèmes.
-
-[[./montage.jpg]]
+[[./buzzer_paralelle/montage.jpg]]
 
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
