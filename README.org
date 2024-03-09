@@ -33,3 +33,4 @@ quand ils n'ont pas besoin de le faire résout tous les problèmes.
 - https://ai2.appinventor.mit.edu/
 - https://www.circuitstate.com/tutorials/getting-started-with-arduino-nano-esp32-wifi-and-iot-development-board/#Bluetooth_LE
 - https://community.appinventor.mit.edu/t/ble-esp32-bluetooth-send-receive-arduino-ide-multitoxuch/1980/2
+- Montage de 4 boutons en série :  https://robdomo.com/arduino/exemples-montage-schemas-et-codes/uno/intermediaire/brancher-plusieurs-boutons-poussoir-sur-une-entree-analogique/

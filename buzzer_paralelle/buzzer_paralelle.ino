@@ -5,6 +5,8 @@ lui-même basé sur
  Neil Kolban example for IDF:
   https://github.com/nkolban/esp32-snippets/blob/master/cpp_utils/tests/BLE%20Tests/SampleWrite.cpp
    Ported to Arduino ESP32 by Evandro Copercini
+
+https://github.com/thomasfredericks/Bounce2
 */
 
 #include <BLEDevice.h>
@@ -12,6 +14,7 @@ lui-même basé sur
 #include <BLEServer.h>
 #include <string.h>
 #include <stdio.h>
+#include <Bounce2.h>
 
 String qu_suivante;
 String zone_partagee = "";
@@ -21,6 +24,13 @@ bool lockJ1 = false;
 bool lockJ2 = false;
 bool lockJ3 = false;
 bool lockJ4 = false;
+
+Bounce2::Button button1 = Bounce2::Button();
+Bounce2::Button button2 = Bounce2::Button();
+Bounce2::Button button3 = Bounce2::Button();
+Bounce2::Button button4 = Bounce2::Button();
+
+
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
@@ -77,8 +87,11 @@ class MyCallbacks: public BLECharacteristicCallbacks {
     }
 };
 
-// branché sur le pin A0
-int PIN = A0;
+
+#define BUTTON1 D2
+#define BUTTON2 D3
+#define BUTTON3 D4
+#define BUTTON4 D5
 
 void setup() {
   // bt
@@ -99,38 +112,54 @@ void setup() {
   pAdvertising->start();
 
   // boutons
-  pinMode(PIN, INPUT);
+  int delay=5;
+  button1.interval(delay);
+  button2.interval(delay);
+  button3.interval(delay);
+  button4.interval(delay);
+
+  button1.attach( BUTTON1, INPUT );
+  button2.attach( BUTTON2, INPUT );
+  button3.attach( BUTTON3, INPUT );
+  button4.attach( BUTTON4, INPUT );
+
+  button1.setPressedState(LOW);
+  button2.setPressedState(LOW);
+  button3.setPressedState(LOW);
+  button4.setPressedState(LOW);
+
 }
 
-bool off = true;
+
+void button_do (int i, bool* lockJ) {
+  zone_partagee = String(i);
+      *lockJ = true;
+      Serial.print("Numero du bouton appuyé : ");
+      Serial.println(zone_partagee);
+}
+
 void loop() {
-  int value;
+  button1.update();
+  button2.update();
+  button3.update();
+  button4.update();
+  int cpt =0;
+  if (attente_buzz) {
 
-  value = analogRead(PIN);
-  Serial.print("intensité sur le pin = ");
-  Serial.println(value);
+    if (button1.pressed() & lockJ1 == false) { button_do(1, &lockJ1); };
+    if (button2.pressed() & lockJ2 == false) { button_do(2, &lockJ2); };
+    if (button3.pressed() & lockJ3 == false) { button_do(3, &lockJ3); };
+    if (button4.pressed() & lockJ4 == false) { button_do(4, &lockJ4); };
 
-  if (value < 3000 & attente_buzz == true) {
-
-    if ( value < 50  & lockJ1 == false) {
-      zone_partagee = "1";
-      lockJ1 = true;
-      attente_buzz = false;
-    } else if ( value < 1000 & value > 300 & lockJ2 == false) {
-      zone_partagee = "2";
-      lockJ2 = true;
-      attente_buzz = false;
-    } else if ( value < 1700 & value > 1100 & lockJ3 == false ) {
-      zone_partagee = "3";
-      lockJ3 = true;
-      attente_buzz = false;
-    } else if (value < 3000 & value > 1800 & lockJ4 == false) {
-      zone_partagee = "4";
-      lockJ4 = true;
-      attente_buzz = false;
+    if (button1.pressed()) { cpt++; };
+    if (button2.pressed()) { cpt++; };
+    if (button3.pressed()) { cpt++; };
+    if (button4.pressed()) { cpt++; };
+    if ( cpt > 1 ) {
+      Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS !!!!!!! ");
     };
-    Serial.print("Numero du bouton appuyé : ");
-    Serial.println(zone_partagee);
-    //attente_buzz = false;
+    if  ( cpt == 1 ) { attente_buzz = false; };
+
   };
-}
+    //attente_buzz = false;
+};
