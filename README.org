@@ -11,7 +11,7 @@ Le fichier =buzzer_paralelle/buzzer.aia= est à ouvrir (import) avec https://ai2
 
 Sur le téléphone, il faut installer =MIT ai2 companion= (Android play store)
 
-[[./buzzer_paralelle/montage.jpg]]
+[[./buzzer_paralelle/schema-montage.jpg]]
 
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
