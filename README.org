@@ -3,6 +3,8 @@
 
 Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][buzzer.apk]] et se laisser guider.
 
+[[./buzzer_paralelle/photo-montage.jpg]]
+
 * Développement
 
 Le fichier file:buzzer_paralelle/buzzer_paralelle.ino est à ouvrir avec arduino-ide assez recent (2.2.1)
