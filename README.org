@@ -5,7 +5,7 @@ Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][
 
 #+ATTR_HTML: :alt montage paralelle  :title Le montage paralelle :align right
 #+ATTR_HTML: :width 50% :height 50%
-[[./buzzer_paralelle/photo-montage.jpg]]
+[[./buzzer_paralelle/petitphoto-montage.jpg]]
 
 * Développement
 
