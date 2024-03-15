@@ -49,8 +49,11 @@ Bounce2::Button button9 = Bounce2::Button();
 
 // effet de bord : recupere la valuer de qu_suivante via le BT
 void recupere_valeur (BLECharacteristic *pCharacteristic) {
+  Serial.print("recupere_valeur : debut\n");
+
       std::string value = pCharacteristic->getValue();
       if (value.length() > 0) {
+	Serial.print("recupere_valeur : value.length() > 0\n");
         qu_suivante = "";
         for (int i = 0; i < value.length(); i++){
           // Serial.print(value[i]); // Presenta value.
@@ -79,8 +82,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       Serial.print("MyCallbacks: ");
 
       // on veut un entier entre 0 et 9 en premiere position
-      if (zone_partagee.charAt(0) > int('0') ||
-	  zone_partagee.charAt(0) <= int('9')) {
+
+      //if (zone_partagee == "1" || zone_partagee == "2" || zone_partagee == "3" || zone_partagee == "4" ) {
+     if (zone_partagee.charAt(0) > int('0') &&  zone_partagee.charAt(0) <= int('9')) {
 	transferer(pCharacteristic);
       };
       recupere_valeur(pCharacteristic);
@@ -210,7 +214,7 @@ void loop() {
       Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS !!!!!!! ");
     };
 
-    if  ( cpt > 1 ) { attente_buzz = false; };
+    if  ( cpt >= 1 ) { attente_buzz = false; };
 
   };
 };
