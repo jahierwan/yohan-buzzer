@@ -105,7 +105,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 	// (mais le joueur sera lock)
         attente_buzz = true;
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
-      };
+      } else if (qu_suivante == "r") { // Bouton redemarrage de la carte arduino
+	asm volatile("jmp 0");
+      }      
       Serial.println("Fin de MyCallbacks ");
     }
 };
