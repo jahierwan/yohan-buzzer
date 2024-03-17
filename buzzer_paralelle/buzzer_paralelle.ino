@@ -15,6 +15,7 @@ https://github.com/thomasfredericks/Bounce2
 #include <string.h>
 #include <stdio.h>
 #include <Bounce2.h>
+#include <Esp.h>
 
 String qu_suivante;
 String zone_partagee = "";
@@ -106,8 +107,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         attente_buzz = true;
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
       } else if (qu_suivante == "r") { // Bouton redemarrage de la carte arduino
-	asm volatile("jmp 0");
-      }      
+	ESP.restart();
+	// asm volatile("jmp 0");
+      }
       Serial.println("Fin de MyCallbacks ");
     }
 };
