@@ -35,14 +35,11 @@ Bounce2::Button button1 = Bounce2::Button();
 Bounce2::Button button2 = Bounce2::Button();
 Bounce2::Button button3 = Bounce2::Button();
 Bounce2::Button button4 = Bounce2::Button();
-/* Pour 9 boutons */
-/*
 Bounce2::Button button5 = Bounce2::Button();
 Bounce2::Button button6 = Bounce2::Button();
 Bounce2::Button button7 = Bounce2::Button();
 Bounce2::Button button8 = Bounce2::Button();
 Bounce2::Button button9 = Bounce2::Button();
-*/
 
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
@@ -57,7 +54,7 @@ void recupere_valeur (BLECharacteristic *pCharacteristic) {
 	Serial.print("recupere_valeur : value.length() > 0\n");
         qu_suivante = "";
         for (int i = 0; i < value.length(); i++){
-          // Serial.print(value[i]); // Presenta value.
+          // Serial.print(value[i]);
           qu_suivante = qu_suivante + value[i];
         };
 	if (debug) {
@@ -103,12 +100,11 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         lockJ9 = false;
       } else if (qu_suivante == "f"){
 	//si la reponse donné n'est pas bonne on peut à nouveau buzzer
-	// (mais le joueur sera lock)
+	// (mais le joueur sera locké)
         attente_buzz = true;
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
       } else if (qu_suivante == "r") { // Bouton redemarrage de la carte arduino
 	ESP.restart();
-	// asm volatile("jmp 0");
       }
       Serial.println("Fin de MyCallbacks ");
     }
@@ -166,8 +162,9 @@ void setup() {
 
 
 void button_do (int i, bool* lockJ) {
-  zone_partagee = String(i);
   *lockJ = true;
+  attente_buzz = false;
+  zone_partagee = String(i);
   Serial.print("Numero du bouton appuyé : ");
   Serial.println(zone_partagee);
 }
@@ -218,7 +215,6 @@ void loop() {
       Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS !!!!!!! ");
     };
 
-    if  ( cpt >= 1 ) { attente_buzz = false; };
 
   };
 };
