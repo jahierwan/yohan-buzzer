@@ -18,9 +18,12 @@ https://github.com/thomasfredericks/Bounce2
 #include <Esp.h>
 
 String qu_suivante;
+
+// la communication bluetooth se fait via ce buffer
 String zone_partagee = "";
 bool attente_buzz = true;
 bool debug = true;
+
 bool lockJ1 = false;
 bool lockJ2 = false;
 bool lockJ3 = false;
@@ -44,27 +47,25 @@ Bounce2::Button button9 = Bounce2::Button();
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-
-// effet de bord : recupere la valuer de qu_suivante via le BT
+// effet de bord : recupere la valeur de qu_suivante via le BT
 void recupere_valeur (BLECharacteristic *pCharacteristic) {
   Serial.print("recupere_valeur : debut\n");
-
-      std::string value = pCharacteristic->getValue();
-      if (value.length() > 0) {
-	Serial.print("recupere_valeur : value.length() > 0\n");
-        qu_suivante = "";
-        for (int i = 0; i < value.length(); i++){
-          // Serial.print(value[i]);
-          qu_suivante = qu_suivante + value[i];
-        };
-	if (debug) {
-	  Serial.print("recupere_valeur : qu_suivante = ");
-	  Serial.print(qu_suivante);
-	  Serial.print("  zone_partagee = ");
-	  Serial.print(zone_partagee);
-	  Serial.println(" Fin recupere_valeur");
-	};
-      }
+  std::string value = pCharacteristic->getValue();
+  if (value.length() > 0) {
+    Serial.print("recupere_valeur : value.length() > 0\n");
+    qu_suivante = "";
+    for (int i = 0; i < value.length(); i++){
+      // Serial.print(value[i]);
+      qu_suivante = qu_suivante + value[i];
+    };
+    if (debug) {
+      Serial.print("recupere_valeur : qu_suivante = ");
+      Serial.print(qu_suivante);
+      Serial.print("  zone_partagee = ");
+      Serial.print(zone_partagee);
+      Serial.println(" Fin recupere_valeur");
+    };
+  }
 }
 
 void transferer (BLECharacteristic *pCharacteristic) {
@@ -74,14 +75,13 @@ void transferer (BLECharacteristic *pCharacteristic) {
   zone_partagee = "";
 }
 
-// appellé quand le bouton "question suivante" est pressé + toutes les secondes (via timer2 dans MIT)
+// appellé quand le bouton "question suivante" est pressé
+// et toutes les secondes (via timer2 dans MIT)
 class MyCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       Serial.print("MyCallbacks: ");
 
       // on veut un entier entre 0 et 9 en premiere position
-
-      //if (zone_partagee == "1" || zone_partagee == "2" || zone_partagee == "3" || zone_partagee == "4" ) {
      if (zone_partagee.charAt(0) > int('0') &&  zone_partagee.charAt(0) <= int('9')) {
 	transferer(pCharacteristic);
       };
@@ -100,16 +100,16 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         lockJ9 = false;
       } else if (qu_suivante == "f"){
 	//si la reponse donné n'est pas bonne on peut à nouveau buzzer
-	// (mais le joueur sera locké)
+	// (mais le joueur reste locké)
         attente_buzz = true;
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
-      } else if (qu_suivante == "r") { // Bouton redemarrage de la carte arduino
+      } else if (qu_suivante == "r") {
+	// Bouton redemarrage de la carte arduino
 	ESP.restart();
       }
       Serial.println("Fin de MyCallbacks ");
     }
 };
-
 
 #define BUTTON1 D2
 #define BUTTON2 D3
@@ -122,9 +122,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 #define BUTTON9 D10
 
 void setup_button (Bounce2::Button *b, int pin) {
- b->interval(5);
- b->attach(pin, INPUT );
- b->setPressedState(LOW);
+  b->interval(5); // un bon compromis de ce qu'en disent les gens
+  b->attach(pin, INPUT );
+  b->setPressedState(LOW);
 }
 
 void setup() {
@@ -145,7 +145,7 @@ void setup() {
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
   pAdvertising->start();
 
-  // boutons
+  // initialisations des boutons
   setup_button(&button1, BUTTON1);
   setup_button(&button2, BUTTON2);
   setup_button(&button3, BUTTON3);
@@ -165,8 +165,7 @@ void button_do (int i, bool* lockJ) {
   *lockJ = true;
   attente_buzz = false;
   zone_partagee = String(i);
-  Serial.print("Numero du bouton appuyé : ");
-  Serial.println(zone_partagee);
+  Serial.print("Numero du bouton appuyé : "); Serial.println(zone_partagee);
 }
 
 void loop() {
@@ -184,7 +183,6 @@ void loop() {
   */
   int cpt = 0;
   if (attente_buzz) {
-
     if (button1.pressed() & lockJ1 == false) { button_do(1, &lockJ1); };
     if (button2.pressed() & lockJ2 == false) { button_do(2, &lockJ2); };
     if (button3.pressed() & lockJ3 == false) { button_do(3, &lockJ3); };
@@ -197,24 +195,13 @@ void loop() {
     if (button8.pressed() & lockJ8 == false) { button_do(8, &lockJ8); };
     if (button9.pressed() & lockJ9 == false) { button_do(9, &lockJ9); };
     */
-    // un petit test pour voir si c'est possible (on n'a pas réussit à faire de
-    // double appui!)
+
+    // Un petit test pour voir si c'est possible de faire des doubles appuis
     if (button1.pressed()) { cpt++; };
     if (button2.pressed()) { cpt++; };
     if (button3.pressed()) { cpt++; };
     if (button4.pressed()) { cpt++; };
-    /* Pour 9 boutons */
-    /*
-    if (button5.pressed()) { cpt++; };
-    if (button6.pressed()) { cpt++; };
-    if (button7.pressed()) { cpt++; };
-    if (button8.pressed()) { cpt++; };
-    if (button9.pressed()) { cpt++; };
-    */
-    if ( cpt > 1 ) {
-      Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS !!!!!!! ");
-    };
-
-
+    if ( cpt > 1 ) Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS DÉTECTÉ !!!!!!! ");
+    // (bon, ca semble impossible)
   };
 };
