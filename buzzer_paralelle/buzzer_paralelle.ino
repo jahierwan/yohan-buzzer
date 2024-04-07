@@ -124,7 +124,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 void setup_button (Bounce2::Button *b, int pin) {
   b->interval(5); // un bon compromis de ce qu'en disent les gens
   b->attach(pin, INPUT );
-  b->setPressedState(LOW);
+  b->setPressedState(HIGH);
 }
 
 void setup() {
