@@ -47,6 +47,25 @@ Bounce2::Button button9 = Bounce2::Button();
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
+#define BUTTON1 D2
+#define BUTTON2 D3
+#define BUTTON3 D4
+#define BUTTON4 D5
+
+#define LEDJ1 D6
+#define LEDJ2 D7
+#define LEDJ3 D8
+#define LEDJ4 D9
+
+#define LEDON D11
+#define LEDOFF D12
+/*
+#define BUTTON5 D6
+#define BUTTON6 D7
+#define BUTTON7 D8
+#define BUTTON8 D9
+#define BUTTON9 D10
+*/
 // effet de bord : recupere la valeur de qu_suivante via le BT
 void recupere_valeur (BLECharacteristic *pCharacteristic) {
   Serial.print("recupere_valeur : debut\n");
@@ -98,6 +117,11 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         lockJ7 = false;
         lockJ8 = false;
         lockJ9 = false;
+
+        digitalWrite(LEDJ1, HIGH);
+        digitalWrite(LEDJ2, HIGH);
+        digitalWrite(LEDJ3, HIGH);
+        digitalWrite(LEDJ4, HIGH);
       } else if (qu_suivante == "f"){
 	//si la reponse donné n'est pas bonne on peut à nouveau buzzer
 	// (mais le joueur reste locké)
@@ -110,16 +134,6 @@ class MyCallbacks: public BLECharacteristicCallbacks {
       Serial.println("Fin de MyCallbacks ");
     }
 };
-
-#define BUTTON1 D2
-#define BUTTON2 D3
-#define BUTTON3 D4
-#define BUTTON4 D5
-#define BUTTON5 D6
-#define BUTTON6 D7
-#define BUTTON7 D8
-#define BUTTON8 D9
-#define BUTTON9 D10
 
 void setup_button (Bounce2::Button *b, int pin) {
   b->interval(5); // un bon compromis de ce qu'en disent les gens
@@ -158,6 +172,20 @@ void setup() {
   setup_button(&button8, BUTTON8);
   setup_button(&button9, BUTTON9);
   */
+  pinMode(LEDJ1, INPUT);
+  pinMode(LEDJ2, INPUT);
+  pinMode(LEDJ3, INPUT);
+  pinMode(LEDJ4, INPUT);
+
+  digitalWrite(LEDJ1, HIGH);
+  digitalWrite(LEDJ2, HIGH);
+  digitalWrite(LEDJ3, HIGH);
+  digitalWrite(LEDJ4, HIGH);
+
+  pinMode(LEDON, INPUT);
+  pinMode(LEDOFF, INPUT);
+
+  digitalWrite(LEDOFF, HIGH);
 }
 
 
@@ -166,6 +194,15 @@ void button_do (int i, bool* lockJ) {
   attente_buzz = false;
   zone_partagee = String(i);
   Serial.print("Numero du bouton appuyé : "); Serial.println(zone_partagee);
+  if (i == 1) {
+    digitalWrite(LEDJ1, LOW);
+  } else if (i == 2) {
+    digitalWrite(LEDJ2, LOW);
+  } else if (i == 3) {
+    digitalWrite(LEDJ3, LOW);
+  } else {
+    digitalWrite(LEDJ4, LOW);
+  }
 }
 
 void loop() {
