@@ -52,13 +52,15 @@ Bounce2::Button button9 = Bounce2::Button();
 #define BUTTON3 D4
 #define BUTTON4 D5
 
-#define LEDJ1 D6
-#define LEDJ2 D7
-#define LEDJ3 D8
-#define LEDJ4 D9
+#define LEDJ1 D7
+#define LEDJ2 D8
+#define LEDJ3 D9
+#define LEDJ4 D10
 
-#define LEDON D11
-#define LEDOFF D12
+bool LEDJ1on = true;
+bool LEDJ2on = true;
+bool LEDJ3on = true;
+bool LEDJ4on = true;
 /*
 #define BUTTON5 D6
 #define BUTTON6 D7
@@ -112,20 +114,40 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         lockJ2 = false;
         lockJ3 = false;
         lockJ4 = false;
-        lockJ5 = false;
-        lockJ6 = false;
-        lockJ7 = false;
-        lockJ8 = false;
-        lockJ9 = false;
 
         digitalWrite(LEDJ1, HIGH);
         digitalWrite(LEDJ2, HIGH);
         digitalWrite(LEDJ3, HIGH);
         digitalWrite(LEDJ4, HIGH);
+        LEDJ1on = true;
+        LEDJ2on = true;
+        LEDJ3on = true;
+        LEDJ4on = true;
+
       } else if (qu_suivante == "f"){
 	//si la reponse donné n'est pas bonne on peut à nouveau buzzer
 	// (mais le joueur reste locké)
         attente_buzz = true;
+        if (LEDJ1on == true) {
+          digitalWrite(LEDJ1, HIGH);
+        } else {
+          digitalWrite(LEDJ1, LOW);
+        }  
+        if (LEDJ2on == true) {
+          digitalWrite(LEDJ2, HIGH);
+        } else {
+          digitalWrite(LEDJ2, LOW);
+        }
+        if (LEDJ3on == true) {
+          digitalWrite(LEDJ3, HIGH);
+        } else {
+          digitalWrite(LEDJ3, LOW);
+        }
+        if (LEDJ4on == true) {
+          digitalWrite(LEDJ4, HIGH);
+        } else {
+          digitalWrite(LEDJ4, LOW);
+        }  
 	Serial.print("qu_suivante n'est pas true. Il vaut : "); Serial.print(qu_suivante);
       } else if (qu_suivante == "r") {
 	// Bouton redemarrage de la carte arduino
@@ -164,81 +186,67 @@ void setup() {
   setup_button(&button2, BUTTON2);
   setup_button(&button3, BUTTON3);
   setup_button(&button4, BUTTON4);
-  /* Pour 9 boutons */
-  /*
-  setup_button(&button5, BUTTON5);
-  setup_button(&button6, BUTTON6);
-  setup_button(&button7, BUTTON7);
-  setup_button(&button8, BUTTON8);
-  setup_button(&button9, BUTTON9);
-  */
-  pinMode(LEDJ1, INPUT);
-  pinMode(LEDJ2, INPUT);
-  pinMode(LEDJ3, INPUT);
-  pinMode(LEDJ4, INPUT);
+  
+  pinMode(LEDJ1, OUTPUT);
+  pinMode(LEDJ2, OUTPUT);
+  pinMode(LEDJ3, OUTPUT);
+  pinMode(LEDJ4, OUTPUT);
 
   digitalWrite(LEDJ1, HIGH);
   digitalWrite(LEDJ2, HIGH);
   digitalWrite(LEDJ3, HIGH);
   digitalWrite(LEDJ4, HIGH);
 
-  pinMode(LEDON, INPUT);
-  pinMode(LEDOFF, INPUT);
-
-  digitalWrite(LEDOFF, HIGH);
 }
 
-
+int ledClignotante;
 void button_do (int i, bool* lockJ) {
   *lockJ = true;
   attente_buzz = false;
   zone_partagee = String(i);
   Serial.print("Numero du bouton appuyé : "); Serial.println(zone_partagee);
+
+  digitalWrite(LEDJ1, LOW);
+  digitalWrite(LEDJ2, LOW);
+  digitalWrite(LEDJ3, LOW);
+  digitalWrite(LEDJ4, LOW);
   if (i == 1) {
-    digitalWrite(LEDJ1, LOW);
+    LEDJ1on = false;
+    ledClignotante = LEDJ1;
   } else if (i == 2) {
-    digitalWrite(LEDJ2, LOW);
+    LEDJ2on = false;
+    ledClignotante = LEDJ2;
   } else if (i == 3) {
-    digitalWrite(LEDJ3, LOW);
+    LEDJ3on = false;
+    ledClignotante = LEDJ3;
   } else {
-    digitalWrite(LEDJ4, LOW);
+    LEDJ4on = false;
+    ledClignotante = LEDJ4;
   }
 }
+
+unsigned long currentTime;
+boolean ledState = 0;
 
 void loop() {
   button1.update();
   button2.update();
   button3.update();
   button4.update();
-  /* Pour 9 boutons */
-  /*
-  button5.update();
-  button6.update();
-  button7.update();
-  button8.update();
-  button9.update();
-  */
+
   int cpt = 0;
   if (attente_buzz) {
     if (button1.pressed() & lockJ1 == false) { button_do(1, &lockJ1); };
     if (button2.pressed() & lockJ2 == false) { button_do(2, &lockJ2); };
     if (button3.pressed() & lockJ3 == false) { button_do(3, &lockJ3); };
     if (button4.pressed() & lockJ4 == false) { button_do(4, &lockJ4); };
-    /* Pour 9 boutons */
-    /*
-    if (button5.pressed() & lockJ5 == false) { button_do(5, &lockJ5); };
-    if (button6.pressed() & lockJ6 == false) { button_do(6, &lockJ6); };
-    if (button7.pressed() & lockJ7 == false) { button_do(7, &lockJ7); };
-    if (button8.pressed() & lockJ8 == false) { button_do(8, &lockJ8); };
-    if (button9.pressed() & lockJ9 == false) { button_do(9, &lockJ9); };
-    */
 
-    // Un petit test pour voir si c'est possible de faire des doubles appuis
-    if (button1.pressed()) { cpt++; };
-    if (button2.pressed()) { cpt++; };
-    if (button3.pressed()) { cpt++; };
-    if (button4.pressed()) { cpt++; };
-    if ( cpt > 1 ) Serial.print(" ZZZ DOUBLE APPUI DE BOUTONS DÉTECTÉ !!!!!!! ");
-    // (bon, ca semble impossible)
+
+  } else {
+    if (millis() - currentTime > 500) {
+       currentTime = millis();
+       ledState =! ledState;
+       digitalWrite(ledClignotante, ledState);
+    }
   };
 };
