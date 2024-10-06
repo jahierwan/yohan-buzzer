@@ -20,6 +20,63 @@ Montage avec led
 - [[./buzzer_paralelle/schema-montage.jpg]]
 - [[./buzzer_paralelle/montage-led.jpg]]
 
+* Changer l'AndroidManifest
+
+** Avec apktool [ne fonctionne pas]
+
+Il faut d'abord décompiler l'apk
+
+#+begin_src sh
+ cd ~/Nino
+ apktool d CapioQuiz.apk
+#+end_src
+
+Par exemple, pour resoudre le probleme d'autorisation d'acces aux GPS
+depuis  l'application  (dont  on   se  demande  bien  pourquoi  c'est
+obligatoire   par    défaut),   il   suffit   d'enlever    la   ligne
+android.permission.ACCESS_FINE_LOCATION dans
+
+file:CapioQuiz/AndroidManifest.xml
+
+ensuite, on reconstruit l'apk
+
+#+begin_src sh
+ apktool b CapioQuiz
+ mv CapioQuiz/dist/CapioQuiz.apk .
+#+end_src
+
+Malheureusement, l'apk généré ne s'intalle pas (version 2.7-dirty)
+
+** Avec APK Editor Studio
+
+https://appimage.github.io/APK_Editor_Studio/
+
+Ca fonctionne
+
+* Pourquoi le GPS doit être allumé
+
+Donc en fait, c'est un vieux bug de 2015 que google refuse de corriger
+
+- https://issuetracker.google.com/issues/37060483
+- https://issuetracker.google.com/issues/169936948
+
+La raison pour laquelle google refuse semble être la suivante : quand
+on désactive  la localisation (son GPS),  on peut penser ne  pas être
+localisable, ce qui est faux si le  BT ou le wifi sont allumés.  Donc
+pour ne pas que les uilisateurs se croient faussement inlocalisables,
+ils obligent à activer le GPS si BT ou wifi.
+
+Mais tout les intervenants ralent car il y a d'autres raisons de vouloir
+éteindre son GPS et pas son BT/wifi :
+ - économiser la batterie.
+ - les dev d'app qui ont besoin du BT ou du wifi doivent demander
+   l'autorisation GPS, et  ils se font mal voir  de leurs utilisateurs
+   potentiels car ceux-ci pensent que c'est pour les espionner !
+
+Bref, malgré ces bons arguments, google refuse de corriger depuis 2015.
+
+En fait, si le bouton  "localisation" s'appelait "GPS", il n'y aurait
+sans doute pas de problème.
 
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
