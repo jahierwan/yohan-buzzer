@@ -1,7 +1,7 @@
 
 * Utilisation
 
-Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][buzzer.apk]] et se laisser guider.
+Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][CapioQuiz.apk]] et se laisser guider.
 
 #+ATTR_HTML: :alt montage paralelle  :title Le montage paralelle :align right
 #+ATTR_HTML: :width 50% :height 50%
@@ -9,9 +9,11 @@ Installer le [[https://github.com/jahierwan/yohan-buzzer/raw/master/buzzer.apk][
 
 * Développement
 
-Le fichier file:buzzer_paralelle/buzzer_paralelle.ino est à ouvrir avec arduino-ide assez recent (2.2.1)
+Le  fichier file:buzzer_paralelle/buzzer_paralelle.ino  est à  ouvrir
+avec arduino-ide assez recent (2.2.1)
 
-Le fichier =buzzer_paralelle/buzzer.aia= est à ouvrir (import) avec https://ai2.appinventor.mit.edu/
+Le fichier  =CapioQuiz.aia= est à ouvrir  (import) avec
+https://ai2.appinventor.mit.edu/
 
 Sur le téléphone, il faut installer =MIT ai2 companion= (Android play store)
 
@@ -66,8 +68,8 @@ localisable, ce qui est faux si le  BT ou le wifi sont allumés.  Donc
 pour ne pas que les uilisateurs se croient faussement inlocalisables,
 ils obligent à activer le GPS si BT ou wifi.
 
-Mais tout les intervenants ralent car il y a d'autres raisons de vouloir
-éteindre son GPS et pas son BT/wifi :
+Mais tous  les intervenants  ralent car  il y  a d'autres  raisons de
+vouloir éteindre son GPS et pas son BT/wifi :
  - économiser la batterie.
  - les dev d'app qui ont besoin du BT ou du wifi doivent demander
    l'autorisation GPS, et  ils se font mal voir  de leurs utilisateurs
@@ -76,8 +78,8 @@ Mais tout les intervenants ralent car il y a d'autres raisons de vouloir
 Bref, malgré ces bons arguments, google refuse de corriger depuis 2015.
 
 En fait, si le bouton  "localisation" s'appelait "GPS", il n'y aurait
-sans  doute pas  de problème.  Comme  disait Albert, mMal nommer  les
-choses, c'est ajouter aux malheur du monde.
+sans  doute pas  de problème.  Comme  disait Albert, mal nommer  les
+choses, c'est ajouter aux malheurs du monde.
 
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
