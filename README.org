@@ -31,10 +31,9 @@ Il faut d'abord décompiler l'apk
  apktool d CapioQuiz.apk
 #+end_src
 
-Par exemple, pour resoudre le probleme d'autorisation d'acces aux GPS
-depuis  l'application  (dont  on   se  demande  bien  pourquoi  c'est
-obligatoire   par    défaut),   il   suffit   d'enlever    la   ligne
-android.permission.ACCESS_FINE_LOCATION dans
+Par  exemple, pour  essayer  de résoudre  le probleme  d'autorisation
+d'acces aux  GPS depuis l'application,  il suffit d'enlever  la ligne
+=android.permission.ACCESS_FINE_LOCATION= dans
 
 file:CapioQuiz/AndroidManifest.xml
 
@@ -51,7 +50,8 @@ Malheureusement, l'apk généré ne s'intalle pas (version 2.7-dirty)
 
 https://appimage.github.io/APK_Editor_Studio/
 
-Ca fonctionne
+Ca fonctionne (l'appli s'installe), mais refuse de s'executer sans la
+permission =ACCESS_FINE_LOCATION=.
 
 * Pourquoi le GPS doit être allumé
 
@@ -76,7 +76,8 @@ Mais tout les intervenants ralent car il y a d'autres raisons de vouloir
 Bref, malgré ces bons arguments, google refuse de corriger depuis 2015.
 
 En fait, si le bouton  "localisation" s'appelait "GPS", il n'y aurait
-sans doute pas de problème.
+sans  doute pas  de problème.  Comme  disait Albert, mMal nommer  les
+choses, c'est ajouter aux malheur du monde.
 
 * Quelques liens utiles
 - https://ai2.appinventor.mit.edu/
